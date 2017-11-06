@@ -14,6 +14,7 @@ public class MainApp {
         Options options = new Options();
         options.addOption("a", "aggregatorURL", true, "URL of the stats aggregator");
         options.addOption("n", "number", true, "Number of computer simulations");
+        options.addOption("p", "protobuf", false, "Use Protobuf instead of JSON");
         options.addOption("h", "help", false, "Print this message");
         CommandLineParser cliParser = new DefaultParser();
         try {
@@ -21,7 +22,8 @@ public class MainApp {
             if ((cmd.hasOption("h")) || (!cmd.hasOption("a") || !cmd.hasOption("n"))) {
                 new HelpFormatter().printHelp("MainApp -a <URL> -n <NUMBER>", options);
             } else {
-                SimulatorController simulatorController = new SimulatorController(cmd.getOptionValue("a"), Integer.parseInt(cmd.getOptionValue("n")));
+                boolean useJSON = !(cmd.hasOption("p"));
+                SimulatorController simulatorController = new SimulatorController(cmd.getOptionValue("a"), Integer.parseInt(cmd.getOptionValue("n")), useJSON);
                 simulatorController.start();
             }
         } catch (ParseException pe) {
