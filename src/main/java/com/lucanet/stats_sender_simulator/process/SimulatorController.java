@@ -26,6 +26,11 @@ public class SimulatorController {
                     statisticsTransmitter.transmitStatistics(simulation.getComputerUUID(), simulation.generateStatistics());
                 }
             }, 50L, 1000L);
+            try {
+                Thread.sleep(50L);
+            } catch (InterruptedException ex) {
+                //No-op
+            }
         });
     }
     
