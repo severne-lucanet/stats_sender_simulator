@@ -1,10 +1,7 @@
 package com.severett.stats_sender_simulator.model;
 
-import com.lucanet.stats_common_model.Computerstatistics;
-import com.lucanet.stats_common_model.Computerstatistics.ComputerStatistics.Builder;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Clock;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -43,21 +40,6 @@ public class ComputerSimulation {
         stats.put("memoryUsage", ThreadLocalRandom.current().nextInt(10000, memoryCapacity + 1));
         stats.put("memoryCapacity", memoryCapacity);
         return stats;
-    }
-    
-    public Computerstatistics.ComputerStatistics generateStatisticsObj() {
-        Builder statsBuilder = Computerstatistics.ComputerStatistics.newBuilder();
-        statsBuilder.setComputerUuid(computerUUID);
-        statsBuilder.setOperatingSystem(operatingSystem);
-        statsBuilder.setProductVersion(productVersion);
-        statsBuilder.setTimestamp(Clock.systemUTC().instant().getEpochSecond());
-        int systemCPULoad = ThreadLocalRandom.current().nextInt(100, 10000);
-        int processCPULoad = ThreadLocalRandom.current().nextInt(100, systemCPULoad);
-        statsBuilder.setProcessCPULoad(new BigDecimal((double) processCPULoad / 100).setScale(2, RoundingMode.HALF_UP).doubleValue());
-        statsBuilder.setSystemCPULoad(new BigDecimal((double) systemCPULoad / 100).setScale(2, RoundingMode.HALF_UP).doubleValue());
-        statsBuilder.setMemoryUsage(ThreadLocalRandom.current().nextInt(10000, memoryCapacity + 1));
-        statsBuilder.setMemoryCapacity(memoryCapacity);
-        return statsBuilder.build();
     }
     
 }

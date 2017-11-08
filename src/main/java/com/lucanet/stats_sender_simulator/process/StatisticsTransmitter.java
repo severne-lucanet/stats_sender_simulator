@@ -1,9 +1,7 @@
 package com.lucanet.stats_sender_simulator.process;
 
-import com.lucanet.stats_common_model.Computerstatistics;
 import java.io.IOException;
 import java.time.Clock;
-import java.util.Arrays;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -39,24 +37,6 @@ public class StatisticsTransmitter {
             System.out.println(String.format("Response for %s at %d: %d", computerUUID, timestamp, response.code()));
         } catch (IOException ioe) {
             System.err.println(String.format("Connection error for %s at %d: %s", computerUUID, timestamp, ioe.getMessage()));
-        }
-    }
-    
-    public void transmitProtobufStatistics(Computerstatistics.ComputerStatistics computerStatistics) {
-        System.out.println(String.format("Sending Protobuf stats for %s at %d: %s", computerStatistics.getComputerUuid(), computerStatistics.getTimestamp(), computerStatistics.toByteString()));
-        StringBuilder urlBuilder = new StringBuilder(aggregatorURL);
-        urlBuilder.append("/stats/protobuf/upload_statistics");
-        RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), computerStatistics.toByteArray());
-        Request request = new Request.Builder()
-                .url(urlBuilder.toString())
-                .addHeader("Content-type", "application/octet-stream")
-                .post(body)
-                .build();
-        try {
-            Response response = httpClient.newCall(request).execute();
-            System.out.println(String.format("Response for %s at %d: %d", computerStatistics.getComputerUuid(), computerStatistics.getTimestamp(), response.code()));
-        } catch (IOException ioe) {
-            System.err.println(String.format("Connection error for %s at %d: %s", computerStatistics.getComputerUuid(), computerStatistics.getTimestamp(), ioe.getMessage()));
         }
     }
 }
